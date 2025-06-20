@@ -1,0 +1,1 @@
+DESCRIBE operativos_b; 

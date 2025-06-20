@@ -1,0 +1,152 @@
+/* Neon Dark Theme CSS */
+
+body {
+    background: #111;
+    color: #fff;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.main-content, .form-container, .modal-content {
+    background: #181818;
+    border-radius: 18px;
+    box-shadow: 0 0 24px 0 #c8ff00a0;
+    border: 1px solid #c8ff0033;
+    margin: 32px auto;
+    padding: 48px 32px;
+    max-width: 1200px;
+}
+
+h1, h2, h3, .section-title {
+    color: #c8ff00;
+    font-weight: bold;
+    text-shadow: 0 0 8px #c8ff00cc;
+    margin-bottom: 18px;
+}
+
+label, .form-label {
+    color: #c8ff00;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="time"],
+input[type="number"],
+input[type="password"],
+input[type="email"],
+select,
+textarea {
+    background: #222;
+    color: #fff;
+    border: 1.5px solid #c8ff00;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    font-size: 1rem;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #fff200;
+    box-shadow: 0 0 8px #c8ff00cc;
+}
+
+.form-section {
+    margin-bottom: 32px;
+    padding: 18px 0 0 0;
+}
+
+.btn, button, .btn-primary {
+    background: #c8ff00;
+    color: #181818;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    padding: 12px 28px;
+    font-size: 1.1rem;
+    box-shadow: 0 0 8px #c8ff00cc;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover, button:hover, .btn-primary:hover {
+    background: #fff200;
+    color: #111;
+    box-shadow: 0 0 16px #c8ff00cc;
+}
+
+.btn-close {
+    color: #c8ff00;
+    background: transparent;
+    border: 2px solid #c8ff00;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 1.5rem;
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn-close:hover {
+    background: #c8ff00;
+    color: #181818;
+}
+
+input[type="radio"], input[type="checkbox"] {
+    accent-color: #c8ff00;
+    margin-right: 8px;
+}
+
+/* Sombra y borde para inputs y selects */
+input, select, textarea {
+    box-shadow: 0 0 6px #c8ff0033;
+}
+
+/* Espaciado entre campos */
+.form-label + input,
+.form-label + select,
+.form-label + textarea {
+    margin-top: 4px;
+}
+
+/* Botón de enviar grande */
+.btn-submit {
+    width: 100%;
+    background: #c8ff00;
+    color: #181818;
+    font-size: 1.2rem;
+    padding: 16px 0;
+    margin-top: 24px;
+    border-radius: 10px;
+    box-shadow: 0 0 16px #c8ff00cc;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn-submit:hover {
+    background: #fff200;
+    color: #111;
+}
+
+/* Iconos */
+.form-label i, .section-title i {
+    color: #c8ff00;
+    margin-right: 6px;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+    width: 10px;
+    background: #222;
+}
+::-webkit-scrollbar-thumb {
+    background: #c8ff00;
+    border-radius: 8px;
+} 

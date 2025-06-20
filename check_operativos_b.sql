@@ -1,0 +1,1 @@
+SHOW CREATE TABLE operativos_b; 

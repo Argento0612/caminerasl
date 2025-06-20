@@ -1,0 +1,287 @@
+            <div class="form-group">
+                <label for="lugar" class="form-label">
+                    <i class="fas fa-map-marker-alt"></i> Lugar
+                </label>
+                <input type="text" id="lugar" name="lugar" class="form-control" 
+                       placeholder="Buscar o crear nuevo...">
+                <div id="sugerenciasLugar" class="autocomplete-list">
+                    <div class="autocomplete-item" style="display: none;">
+                        Escribe para buscar
+                    </div>
+                </div>
+            </div>
+
+<style>
+/* Estilos base */
+:root {
+    --neon-color: #c8ff00;
+    --bg-dark: #1a1a1a;
+}
+
+/* Estilos del formulario */
+.form-section {
+    background: rgba(26, 26, 26, 0.95);
+    border: 1px solid rgba(200, 255, 0, 0.2);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+}
+
+.form-section:hover {
+    border-color: var(--neon-color);
+    box-shadow: 0 0 15px rgba(200, 255, 0, 0.2);
+}
+
+.section-title {
+    color: var(--neon-color);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-title i {
+    color: var(--neon-color);
+}
+
+/* Estilos de los inputs */
+.form-control {
+    background: rgba(15, 15, 15, 0.9) !important;
+    border: 1px solid rgba(200, 255, 0, 0.2) !important;
+    color: #fff !important;
+    border-radius: 10px !important;
+    padding: 0.75rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.form-control:focus {
+    border-color: var(--neon-color) !important;
+    box-shadow: 0 0 10px rgba(200, 255, 0, 0.3) !important;
+    background: rgba(20, 20, 20, 0.9) !important;
+}
+
+/* Estilos de los radio buttons */
+.radio-group {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-check-input {
+    background-color: transparent;
+    border: 2px solid var(--neon-color);
+    cursor: pointer;
+}
+
+.form-check-input:checked {
+    background-color: var(--neon-color);
+    border-color: var(--neon-color);
+}
+
+.form-check-label {
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Botón de envío */
+.btn-submit {
+    background: #c8ff00;
+    color: #000;
+    padding: 1rem 3rem;
+    border-radius: 15px;
+    border: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    margin-top: 2rem;
+    width: auto;
+    display: block;
+    margin: 2rem auto 0;
+}
+
+.btn-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px rgba(200, 255, 0, 0.5);
+    background: #d4ff33;
+}
+
+/* Animaciones */
+.animate-fade-in {
+    animation: fadeIn 0.8s ease-out;
+}
+
+.animate-slide-up {
+    animation: slideUp 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilos para mensajes de ayuda */
+.help-text {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* Estilos para modales */
+.modal-content {
+    background: var(--bg-dark);
+    border: 1px solid var(--neon-color);
+}
+
+.modal-header {
+    border-bottom: 1px solid rgba(200, 255, 0, 0.2);
+}
+
+.modal-footer {
+    border-top: 1px solid rgba(200, 255, 0, 0.2);
+}
+
+.modal-title {
+    color: var(--neon-color);
+}
+
+.btn-close {
+    color: var(--neon-color);
+}
+
+/* Estilos para mensajes de error */
+.error-message {
+    color: #ff4444;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* Estilos para autocompletado */
+.autocomplete-list {
+    background: rgba(20, 20, 20, 0.95);
+    border: 1px solid var(--neon-color);
+    border-radius: 0 0 10px 10px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.autocomplete-item {
+    padding: 0.75rem;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.autocomplete-item:hover {
+    background: rgba(200, 255, 0, 0.1);
+}
+</style>
+
+<script>
+// Función para cargar lugares
+function cargarLugares() {
+    fetch('endpoints/lugares.php?action=list')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                lugares = data.data;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+// Función para mostrar sugerencias
+function mostrarSugerencias(input, lista, datos) {
+    const valor = input.value.toLowerCase().trim();
+    lista.innerHTML = '';
+
+    if (valor.length === 0) {
+        lista.innerHTML = '<div class="autocomplete-item">Escribe para buscar</div>';
+        return;
+    }
+
+    const sugerencias = datos.filter(item => 
+        item.nombre.toLowerCase().includes(valor)
+    );
+
+    if (sugerencias.length > 0) {
+        sugerencias.forEach(item => {
+            const elemento = document.createElement('div');
+            elemento.className = 'autocomplete-item';
+            elemento.textContent = item.nombre;
+            elemento.addEventListener('click', () => {
+                input.value = item.nombre;
+                lista.innerHTML = '';
+            });
+            lista.appendChild(elemento);
+        });
+    } else {
+        const elemento = document.createElement('div');
+        elemento.className = 'autocomplete-item';
+        elemento.innerHTML = `Crear nuevo lugar: <strong>${valor}</strong>`;
+        elemento.addEventListener('click', () => {
+            crearNuevoLugar(valor);
+        });
+        lista.appendChild(elemento);
+    }
+}
+
+// Función para crear nuevo lugar
+function crearNuevoLugar(nombre) {
+    if (nombre.trim() === '') return;
+
+    fetch('endpoints/lugares.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `action=create&nombre=${encodeURIComponent(nombre)}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            cargarLugares();
+            document.getElementById('lugar').value = nombre;
+            document.getElementById('sugerenciasLugar').innerHTML = '';
+        } else {
+            alert('Error al agregar el lugar: ' + data.message);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+// Evento para el input de lugar
+document.getElementById('lugar').addEventListener('input', function() {
+    mostrarSugerencias(this, document.getElementById('sugerenciasLugar'), lugares);
+});
+
+// Evento para cerrar sugerencias al hacer clic fuera
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('#lugar') && !e.target.closest('#sugerenciasLugar')) {
+        document.getElementById('sugerenciasLugar').innerHTML = '';
+    }
+});
+
+// Cargar lugares al iniciar
+let lugares = [];
+cargarLugares();
+</script> 

@@ -1,0 +1,1 @@
+SELECT id, nombre FROM lugares ORDER BY nombre; 
